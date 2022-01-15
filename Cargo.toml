@@ -1,0 +1,7 @@
+[workspace]
+members = [
+  "eds",
+  "eds-reader",
+]
+
+[patch.crates-io]
