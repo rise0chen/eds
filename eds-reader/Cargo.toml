@@ -10,8 +10,8 @@ license-file = "LICENSE"
 name = "eds-reader"
 readme = "./README.md"
 repository = "https://github.com/unmp/eds.git"
-version = "0.1.0"
+version = "0.1.1"
 
 [dependencies]
 eds = {version = "0.5", path = "../eds"}
-fixed-queue = "0.4"
+fixed-queue = "0.5"
