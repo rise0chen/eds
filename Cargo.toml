@@ -2,6 +2,7 @@
 members = [
   "eds",
   "eds-reader",
+  "eds-writer",
 ]
 
 [patch.crates-io]

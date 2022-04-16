@@ -1,8 +1,10 @@
 //! 数据接收器
 
+use bytes::{Bytes, BytesMut};
 use eds::crc::get_crc;
 use eds::frame::*;
-use fixed_queue::Vec;
+
+const MAX_LEN: usize = 4096;
 
 /// 接收器状态
 enum Status {
@@ -18,10 +20,10 @@ enum Status {
 }
 
 /// 接收器
-pub struct Reader<const N: usize> {
+pub struct Reader {
     lead_len: u8,
     /// 已处理的数据
-    load: Vec<u8, N>,
+    load: BytesMut,
     /// 负载总长度
     load_len: u16,
     /// 负载crc
@@ -29,12 +31,12 @@ pub struct Reader<const N: usize> {
     /// 接收状态
     status: Status,
 }
-impl<const N: usize> Reader<N> {
+impl Reader {
     /// 创建一个空的接收器
-    pub const fn new(lead_len: u8) -> Self {
+    pub fn new(lead_len: u8) -> Self {
         Reader {
             lead_len,
-            load: Vec::new(),
+            load: BytesMut::new(),
             load_len: 0,
             load_crc: 0,
             status: Status::Lead(0),
@@ -78,7 +80,7 @@ impl<const N: usize> Reader<N> {
             }
             Status::Length2 => {
                 self.load_len |= res as u16;
-                if self.load_len as usize > N {
+                if self.load_len as usize > MAX_LEN {
                     self.clean();
                     self.recv_one(res);
                 } else {
@@ -86,7 +88,7 @@ impl<const N: usize> Reader<N> {
                 }
             }
             Status::Load => {
-                let _ = self.load.push(res);
+                let _ = self.load.extend([res]);
                 if self.load.len() >= self.load_len as usize {
                     self.load_crc = get_crc(&self.load);
                     self.status = Status::Crc1;
@@ -144,9 +146,11 @@ impl<const N: usize> Reader<N> {
         }
     }
     /// 获取接收到的数据
-    pub fn get_load(&self) -> Option<&[u8]> {
+    pub fn get_load(&mut self) -> Option<Bytes> {
         if let Status::Finish = self.status {
-            Some(&self.load)
+            let load = core::mem::replace(&mut self.load, BytesMut::new());
+            self.status = Status::Lead(0);
+            Some(load.freeze())
         } else {
             None
         }

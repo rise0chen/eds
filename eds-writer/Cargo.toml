@@ -1,17 +1,17 @@
 [package]
 authors = ["rise0chen <rise0chen@163.com>"]
 categories = ["embedded"]
-description = "eds reader"
-documentation = "https://docs.rs/eds-reader"
+description = "eds writer"
+documentation = "https://docs.rs/eds-writer"
 edition = "2018"
 homepage = "https://unmp.crise.cn"
 keywords = ["eds", "unmp", "iot"]
 license-file = "LICENSE"
-name = "eds-reader"
+name = "eds-writer"
 readme = "./README.md"
 repository = "https://github.com/unmp/eds.git"
-version = "0.1.2"
+version = "0.1.0"
 
 [dependencies]
-bytes = "1.1"
 eds = {version = "0.5", path = "../eds"}
+bytes = "1.1"
