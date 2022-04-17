@@ -24,12 +24,14 @@ impl Writer {
         }
     }
     /// 待赋值的负载
-    pub fn get_load(&mut self) -> BytesMut {
-        let mut load = self
-            .fixed
-            .split_off(self.lead_len as usize + Field::Load as usize);
+    pub fn get_load(&mut self) -> Option<BytesMut> {
+        let fixed_len = self.lead_len as usize + Field::Load as usize;
+        if self.fixed.capacity() <= fixed_len {
+            return None;
+        }
+        let mut load = self.fixed.split_off(fixed_len);
         load.clear();
-        load
+        Some(load)
     }
     /// 获取编码后的数据
     pub fn get_data(&mut self, load: BytesMut) -> &[u8] {
