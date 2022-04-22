@@ -10,8 +10,8 @@ license-file = "LICENSE"
 name = "eds-reader"
 readme = "./README.md"
 repository = "https://github.com/unmp/eds.git"
-version = "0.1.2"
+version = "0.1.3"
 
 [dependencies]
 bytes = "1.1"
-eds = {version = "0.5", path = "../eds"}
+eds-core = {version = "0.5", path = "../eds-core"}

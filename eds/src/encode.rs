@@ -1,6 +1,6 @@
 use crate::error::Error;
 use crate::frame::*;
-use crc16;
+use crate::crc::get_crc;
 
 /// 编码器
 pub struct Encoder<'a> {
@@ -30,7 +30,7 @@ impl<'a> Encoder<'a> {
         }
 
         // 设置校验
-        let check = crc16::State::<crc16::MODBUS>::calculate(self.load);
+        let check = get_crc(self.load);
         for i in 0..lead_len {
             buf[i] = CHAR_LEAD;
         }

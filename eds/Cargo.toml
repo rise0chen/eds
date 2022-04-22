@@ -1,16 +1,21 @@
 [package]
-name = "eds"
-version = "0.5.0"
 authors = ["rise0chen <rise0chen@163.com>"]
+categories = ["embedded"]
 description = "Easy data separator"
 documentation = "https://docs.rs/eds"
-homepage = "https://unmp.crise.cn"
-repository = "https://github.com/unmp/eds.git"
-readme = "./README.md"
-keywords = ["eds", "unmp", "iot"]
-categories = ["embedded"]
-license-file = "LICENSE"
 edition = "2018"
+homepage = "https://unmp.crise.cn"
+keywords = ["eds", "unmp", "iot"]
+license-file = "LICENSE"
+name = "eds"
+readme = "./README.md"
+repository = "https://github.com/unmp/eds.git"
+version = "0.5.1"
+
+[features]
+alloc = ["eds-reader", "eds-writer"]
 
 [dependencies]
-crc16 = "^0.4.0"
+eds-core = {version = "0.5", path = "../eds-core"}
+eds-reader = {version = "0.1", path = "../eds-reader", optional = true}
+eds-writer = {version = "0.1", path = "../eds-writer", optional = true}

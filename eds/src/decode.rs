@@ -1,6 +1,6 @@
 use crate::error::Error;
 use crate::frame::*;
-use crc16;
+use crate::crc::get_crc;
 
 pub struct Decoder {
     lead_len: u8,
@@ -35,7 +35,7 @@ impl Decoder {
         let crc = (buf[i_start + Field::Load as usize + load_len] as u16) << 8
             | buf[i_start + Field::Load as usize + load_len + 1] as u16;
         // CRC检验
-        let check = crc16::State::<crc16::MODBUS>::calculate(load);
+        let check = get_crc(load);
         if check != crc {
             return Err(Error::CrcCheckError);
         }

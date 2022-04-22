@@ -1,8 +1,8 @@
 //! 数据接收器
 
 use bytes::{Bytes, BytesMut};
-use eds::crc::get_crc;
-use eds::frame::*;
+use eds_core::crc::get_crc;
+use eds_core::frame::*;
 
 const MAX_LEN: usize = 4096;
 

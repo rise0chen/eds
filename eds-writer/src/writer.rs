@@ -1,8 +1,8 @@
 //! 数据发送器
 
 use bytes::BytesMut;
-use eds::crc::get_crc;
-use eds::frame::*;
+use eds_core::crc::get_crc;
+use eds_core::frame::*;
 
 /// 接收器
 pub struct Writer {

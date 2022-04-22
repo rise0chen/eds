@@ -4,11 +4,17 @@
 
 #![no_std]
 
-pub mod crc;
 mod decode;
 mod encode;
-pub mod error;
-pub mod frame;
+
+pub use eds_core::crc;
+pub use eds_core::error;
+pub use eds_core::frame;
 
 pub use decode::Decoder;
 pub use encode::Encoder;
+
+#[cfg(feature = "alloc")]
+pub use eds_reader::Reader;
+#[cfg(feature = "alloc")]
+pub use eds_writer::Writer;
